@@ -1,1 +1,1 @@
-# proyecto_de_programaci-n
+# proyecto_de_programacion
