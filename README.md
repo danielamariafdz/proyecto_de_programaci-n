@@ -6,5 +6,5 @@ https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/Avance%201
 
 Avance 2: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos.py
 
-Avance 3: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos.py
+Avance 3: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos3.py
 
