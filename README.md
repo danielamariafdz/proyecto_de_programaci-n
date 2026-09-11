@@ -4,7 +4,7 @@ Es muy importante organizar en algún lugar los deberes que tenemos pendientes y
 Se adjunta el pseudocódigo
 https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/Avance%201_%20seleccio%CC%81n%20de%20proyecto.pdf
 
-Avance 2: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos.py
+Avances: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos.py
 
-Avance 3: https://github.com/danielamariafdz/proyecto_de_programaci-n/blob/main/rpg_habitos3.py
+
 
