@@ -8,9 +8,21 @@ historial_tareas = []
 
 print("Bienvenido a tu tracker de hábitos")
 
+#Muestra un barra del HP
+def mostrar_barra_hp(hp_actual):
+    llenas = hp_actual // 10
+    for i in range(llenas):
+        print("#", end="")
+    vacias = 10 - llenas
+    for i in range(vacias):
+        print("-", end="")
+    print()
+    
 #Muestra el estado actual del jugador
 def mostrar_estado():
-    print(f"Nivel: {NIVEL}  HP: {HP}  XP: {XP}")
+    print(f"Nivel: {NIVEL} XP: {XP}")
+    print("HP:", end=" ")
+    mostrar_barra_hp(HP)
 
 #Muestra el menú del juego
 def mostrar_menu():
@@ -24,7 +36,7 @@ def mostrar_menu():
 def validar_opcion(opcion_texto):
     try:
         numero = int(opcion_texto)
-    except:
+    except ValueError:
         return None
     if numero >= 1 and numero <= 5:
         return numero
@@ -42,7 +54,7 @@ def sumar_xp(cantidad):
         return True 
     return False
 
-## Muestra el estado inicial y repite el menú hasta que el usuario elija Salir
+# Muestra el estado inicial y repite el menú hasta que el usuario elija Salir
 mostrar_estado()  
 opcion = 0 
 while opcion != 5:
@@ -56,6 +68,9 @@ while opcion != 5:
     if opcion == 1:
         print("Elegiste agregar tarea.")
         nombre_tarea = input ("¿Qué tarea completaste? ")
+        while nombre_tarea == "":
+            print("Input no válido")
+            nombre_tarea = input ("¿Qué tarea completaste? ")
         historial_tareas.append(nombre_tarea)
         subio_nivel = sumar_xp(10)
         if subio_nivel:
@@ -79,7 +94,7 @@ while opcion != 5:
 
     elif opcion == 4:
         if not historial_tareas:
-                print("Aún no has completado ninguna tarea.")
+            print("Aún no has completado ninguna tarea.")
         else:
             print("Tus tareas completadas: ") 
             for elemento in historial_tareas:
