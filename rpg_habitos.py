@@ -8,14 +8,14 @@ historial_tareas = []
 
 print("Bienvenido a tu tracker de hábitos")
 
-#Muestra un barra del HP
+#Dibuja una barra de 10 casillas que representa el HP del personaje.
 def mostrar_barra_hp(hp_actual):
     llenas = hp_actual // 10
     for i in range(llenas):
-        print("#", end="")
+        print("■", end="")
     vacias = 10 - llenas
     for i in range(vacias):
-        print("-", end="")
+        print("□", end="")
     print()
     
 #Muestra el estado actual del jugador
@@ -30,7 +30,8 @@ def mostrar_menu():
     print("2. Ver estado del personaje")
     print("3. Tarea no completada")
     print("4. Ver historial de tareas")
-    print("5. Salir")
+    print("5. Eliminar tarea de historial")
+    print("6. Salir")
 
 #Verifica si la opción del menú elegida es valida
 def validar_opcion(opcion_texto):
@@ -38,11 +39,15 @@ def validar_opcion(opcion_texto):
         numero = int(opcion_texto)
     except ValueError:
         return None
-    if numero >= 1 and numero <= 5:
+    if numero >= 1 and numero <= 6:
         return numero
     else:
         return None 
-    
+#Muestra las tareas del historial numeradas, empezando en 1.
+def mostrar_historial():
+    for numero, elemento in enumerate(historial_tareas, start=1):
+        print(f"{numero}. {elemento}")
+   
 #Suma la cantidad de XP recibida y revisa si el personaje sube de nivel.
 def sumar_xp(cantidad):
     global XP, NIVEL, HP
@@ -57,7 +62,7 @@ def sumar_xp(cantidad):
 # Muestra el estado inicial y repite el menú hasta que el usuario elija Salir
 mostrar_estado()  
 opcion = 0 
-while opcion != 5:
+while opcion != 6:
     mostrar_menu()
     opcion_texto = input("Elige una opción:")
     opcion = validar_opcion(opcion_texto)
@@ -96,11 +101,31 @@ while opcion != 5:
         if not historial_tareas:
             print("Aún no has completado ninguna tarea.")
         else:
-            print("Tus tareas completadas: ") 
-            for elemento in historial_tareas:
-                print(elemento)
-                        
+            if len(historial_tareas) == 1:
+                print(f"Has completado {len(historial_tareas)} tarea")
+            else:
+                print(f"Has completado {len(historial_tareas)} tareas")
+                print("Tus tareas completadas: ") 
+        mostrar_historial()
+
     elif opcion == 5:
+        if not historial_tareas:
+            print("Aún no has completado ninguna tarea.")
+        else:
+            mostrar_historial()
+            numero_texto = input("¿Qué tarea quieres eliminar? (escribe el número): ")
+            try:
+                posicion = int(numero_texto)
+            except ValueError:
+                print("Debes escribir un número.")
+            else:
+                if posicion >= 1 and posicion <= len(historial_tareas):
+                    eliminada = historial_tareas.pop(posicion - 1)
+                    print(f"Eliminaste: {eliminada}")
+                else:
+                    print("Ese número no está en la lista.")
+
+    elif opcion == 6:
         print("Saliendo del juego")
     
 
