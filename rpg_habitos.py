@@ -16,6 +16,7 @@ print("Bienvenido a tu tracker de hábitos")
 
 #Dibuja una barra de 10 casillas que representa el HP del personaje.
 def mostrar_barra_hp(hp_actual):
+    hp_actual = max(0, min(100, hp_actual))
     llenas = hp_actual // 10
     for i in range(llenas):
         print("■", end="")
@@ -40,6 +41,7 @@ def mostrar_menu():
     print("6. Ver semana de hábitos")
     print("7. Marcar hábito de la semana")
     print("8. Salir")
+    print("9. Buscar tareas en el historial")
 
 #Verifica si la opción del menú elegida es valida
 def validar_opcion(opcion_texto):
@@ -47,7 +49,7 @@ def validar_opcion(opcion_texto):
         numero = int(opcion_texto)
     except ValueError:
         return None
-    if numero >= 1 and numero <= 8:
+    if numero >= 1 and numero <= 9:
         return numero
     else:
         return None 
@@ -82,17 +84,45 @@ def mostrar_semana(matriz):
 def sumar_xp(cantidad):
     global XP, NIVEL, HP
     XP = XP + cantidad
-    if XP >= 100:
+    subio_nivel = False
+    while XP >= 100:
         NIVEL = NIVEL + 1
-        XP = 0 
+        XP = XP - 100
         HP = 100
-        return True 
-    return False
+        subio_nivel = True
+    return subio_nivel
+
+# Avance 8: manejo de cadenas.
+# strip elimina espacios de los extremos; split separa las palabras y
+# join las vuelve a unir con un solo espacio, conservando su escritura.
+def limpiar_texto(texto):
+    return " ".join(texto.strip().split())
+
+
+# lower permite comparar textos sin distinguir mayúsculas de minúsculas.
+# El operador in encuentra una palabra o fragmento dentro de cada tarea.
+def buscar_tareas(consulta):
+    consulta = limpiar_texto(consulta).lower()
+    if consulta == "":
+        print("Escribe una palabra o un fragmento para buscar.")
+        return
+
+    coincidencias = 0
+    for numero, tarea in enumerate(historial_tareas, start=1):
+        if consulta in tarea.lower():
+            print(f"{numero}. {tarea}")
+            coincidencias = coincidencias + 1
+
+    if coincidencias == 0:
+        print(f'No se encontraron tareas que contengan "{consulta}".')
+    else:
+        print(f"Coincidencias encontradas: {coincidencias}")
+
 
 # Muestra el estado inicial y repite el menú hasta que el usuario elija Salir
 mostrar_estado()  
 opcion = 0 
-while opcion != 6:
+while opcion != 8:
     mostrar_menu()
     opcion_texto = input("Elige una opción:")
     opcion = validar_opcion(opcion_texto)
@@ -102,10 +132,10 @@ while opcion != 6:
 
     if opcion == 1:
         print("Elegiste agregar tarea.")
-        nombre_tarea = input ("¿Qué tarea completaste? ")
+        nombre_tarea = limpiar_texto(input("¿Qué tarea completaste? "))
         while nombre_tarea == "":
-            print("Input no válido")
-            nombre_tarea = input ("¿Qué tarea completaste? ")
+            print("Escribe una tarea; no puede contener solo espacios.")
+            nombre_tarea = limpiar_texto(input("¿Qué tarea completaste? "))
         historial_tareas.append(nombre_tarea)
         subio_nivel = sumar_xp(10)
         if subio_nivel:
@@ -118,7 +148,7 @@ while opcion != 6:
         mostrar_estado()
 
     elif opcion == 3:
-        HP = HP - 15 
+        HP = max(0, HP - 15)
         print(f"Perdiste 15 HP. HP actual: {HP}")
         if HP <= 0:
             print("GAME OVER!")
@@ -135,7 +165,7 @@ while opcion != 6:
                 print(f"Has completado {len(historial_tareas)} tarea")
             else:
                 print(f"Has completado {len(historial_tareas)} tareas")
-                print("Tus tareas completadas: ") 
+            print("Tus tareas completadas: ")
         mostrar_historial()
 
     elif opcion == 5:
@@ -181,8 +211,10 @@ while opcion != 6:
 
     elif opcion == 8:
         print("Saliendo del juego")
-    
 
-
-
-
+    elif opcion == 9:
+        if not historial_tareas:
+            print("Aún no has completado ninguna tarea.")
+        else:
+            consulta = input("¿Qué palabra o fragmento quieres buscar? ")
+            buscar_tareas(consulta)
